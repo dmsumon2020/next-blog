@@ -1,4 +1,5 @@
 import { Post } from "@/types/post";
+import { notFound } from "next/navigation";
 
 export default async function SinglePost({
   params,
@@ -16,6 +17,10 @@ export default async function SinglePost({
   const response = await fetch(
     `https://jsonplaceholder.typicode.com/posts/${id}`
   );
+
+  if (!response.ok) {
+    notFound();
+  }
   const post: Post = await response.json();
 
   return (
