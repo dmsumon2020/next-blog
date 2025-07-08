@@ -12,7 +12,10 @@ export const generateMetadata = async ({
   const { id } = await params;
 
   const response = await fetch(
-    `https://jsonplaceholder.typicode.com/posts/${id}`
+    `https://jsonplaceholder.typicode.com/posts/${id}`,
+    {
+      next: { revalidate: 10 },
+    }
   );
 
   if (!response.ok) {
