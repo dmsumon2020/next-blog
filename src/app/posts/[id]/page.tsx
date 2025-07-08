@@ -1,17 +1,36 @@
 import { Post } from "@/types/post";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-export default async function SinglePost({
-  params,
-}: {
+type Props = {
   params: Promise<{ id: string }>;
-}) {
-  /* await new Promise((resolve) =>
-    setTimeout(() => {
-      resolve("It is okay");
-    }, 2000)
-  );*/
+};
 
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
+  const { id } = await params;
+
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/posts/${id}`
+  );
+
+  if (!response.ok) {
+    return {
+      title: "Post Not Found",
+      description: "The requested post does not exist.",
+    };
+  }
+
+  const post: Post = await response.json();
+
+  return {
+    title: `${post.title}`,
+    description: post.body.slice(0, 100),
+  };
+};
+
+export default async function SinglePost({ params }: Props) {
   const { id } = await params;
 
   const response = await fetch(

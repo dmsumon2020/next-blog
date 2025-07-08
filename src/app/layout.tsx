@@ -11,9 +11,17 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
+/*
 export const metadata: Metadata = {
   title: "My Blog",
+  description: "Generated this blog by Next.js",
+};*/
+
+export const metadata: Metadata = {
+  title: {
+    default: "My Blog",
+    template: "%s | My Blog",
+  },
   description: "Generated this blog by Next.js",
 };
 
